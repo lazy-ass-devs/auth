@@ -1,0 +1,19 @@
+language: php
+cache: composer
+git:
+  quiet: true
+  submodules: false
+addons:
+  ssh_known_hosts: 13.58.93.78
+before_install:
+- composer install
+- openssl aes-256-cbc -K $encrypted_3979004174f7_key -iv $encrypted_3979004174f7_iv
+  -in lazyassdevs-key-pair-useast2.pem.enc -out lazyassdevs-key-pair-useast2.pem -d
+- chmod 600 lazyassdevs-key-pair-useast2.pem && mv lazyassdevs-key-pair-useast2.pem
+  ~/.ssh/id_rsa
+deploy:
+  skip_cleanup: true
+  provider: script
+  script: bash scripts/deploy.sh
+  on:
+    branch: master
